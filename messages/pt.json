@@ -1,0 +1,23 @@
+{
+  "Common": {
+    "login": "Entrar",
+    "logout": "Sair",
+    "email": "E-mail",
+    "password": "Senha",
+    "welcome": "Bem-vindo",
+    "loading": "Carregando..."
+  },
+  "LoginPage": {
+    "title": "Login - Nautt",
+    "description": "Entre na sua conta Nautt",
+    "heading": "Entrar na sua conta",
+    "submitButton": "Entrar",
+    "forgotPassword": "Esqueceu sua senha?"
+  },
+  "Navigation": {
+    "dashboard": "Painel",
+    "transactions": "Transações",
+    "reports": "Relatórios",
+    "settings": "Configurações"
+  }
+}

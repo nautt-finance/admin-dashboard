@@ -1,0 +1,198 @@
+# Nautt Finances Dashboard - Cursor Rules
+
+## Estrutura do Projeto
+
+Este é um dashboard para visualização de métricas financeiras construído com React + TypeScript, focado em **componentes reutilizáveis**, **separação por features** e **boas práticas**.
+
+## Tecnologias Principais
+
+- React + TypeScript
+- React Hook Form + Zod
+- Tailwind CSS
+- Axios
+- Next.js
+
+## Estrutura de Pastas e Convenções
+
+### 1. Organizacao por Features (`src/features/`)
+
+- Cada funcionalidade deve ter sua própria pasta em `src/features/`
+- Dentro de cada feature, use a estrutura:
+  - `screens/` - Telas da funcionalidade
+  - `_components/` - Componentes específicos da tela
+  - `_hooks/` - Hooks específicos da tela
+  - `_schema/` - Schemas de validação (Zod)
+
+### 2. Componentes Reutilizáveis (`src/components/`)
+
+- Componentes genéricos vão em `src/components/`
+- Componentes de UI (botões, modais, inputs) vão em `src/components/ui/`
+- Componentes específicos de formulário vão em `src/components/Form/`
+
+### 3. Providers (`src/providers/`)
+
+- Todos os Context API do projeto
+- Um provider por arquivo
+- Nomenclatura: `nome-provider.tsx`
+
+### 4. Hooks (`src/hooks/`)
+
+- Hooks reutilizáveis globais
+- Nomenclatura: `useNomeDoHook.ts`
+
+### 5. Lib (`src/lib/`)
+
+- Funções utilitárias
+- Configurações (API, endpoints, rotas)
+- Arquivos como `api.ts`, `endpoints.ts`, `routes.ts`
+
+## Regras de Nomenclatura
+
+### Arquivos e Pastas
+
+- Pastas: `camelCase` ou `kebab-case`
+- Componentes: `PascalCase` (pasta e arquivo)
+- Hooks: `useNomeDoHook.ts`
+- Schemas: `nome.schema.ts`
+- Pastas privadas de features: prefixo `_` (ex: `_components`, `_hooks`, `_schema`)
+
+### Código
+
+- Variáveis e funções: `camelCase`
+- Componentes: `PascalCase`
+- Constantes: `UPPER_CASE`
+- Tipos/Interfaces: `PascalCase`
+
+## Práticas Recomendadas
+
+### Componentes
+
+- Sempre use TypeScript com tipagem estrita
+- Componentes devem ser funcionais (arrow functions)
+- Props devem ser tipadas com interface
+- Use `export default` para componentes principais
+- Use `export const` para componentes auxiliares
+
+### Formulários
+
+- Use React Hook Form + Zod para validação
+- Schemas de validação vão em `_schema/`
+- Hooks de formulário vão em `_hooks/`
+- Componentes de campo personalizados em `components/Form/`
+
+### Styling
+
+- Use Tailwind CSS
+- Estilos globais apenas em `app/globals.css`
+- Prefer componentes styled a CSS modules
+
+### Organização de Imports
+
+```typescript
+// Libs externas
+import React from 'react'
+import { useForm } from 'react-hook-form'
+
+// Componentes internos
+import { Button } from '@/components/ui/button'
+import { TextField } from '@/components/Form/TextField'
+
+// Hooks e utils
+import { useLogin } from './_hooks/useLogin'
+import { loginSchema } from './_schema/login.schema'
+
+// Tipos
+import type { LoginFormData } from './types'
+```
+
+### Estrutura de Feature
+
+Ao criar uma nova feature, siga esta estrutura:
+
+```
+src/features/nome-feature/
+├── screens/
+│   └── nome-screen/
+│       ├── _components/
+│       │   └── ComponenteEspecifico/
+│       │       └── index.tsx
+│       ├── _hooks/
+│       │   └── useNomeHook.ts
+│       ├── _schema/
+│       │   └── nome.schema.ts
+│       └── index.tsx
+└── types.ts (se necessário)
+```
+
+## Exemplos de Implementação
+
+### Novo Componente de UI
+
+```typescript
+// src/components/ui/card.tsx
+import { HTMLAttributes } from 'react'
+import { cn } from '@/lib/utils'
+
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode
+}
+
+const Card = ({ children, className, ...props }: CardProps) => {
+  return (
+    <div className={cn('rounded-lg border bg-card text-card-foreground shadow-sm', className)} {...props}>
+      {children}
+    </div>
+  )
+}
+
+export { Card };
+
+```
+
+### Novo Hook
+
+```typescript
+// src/hooks/useNomeHook.ts
+import { useState, useEffect } from 'react'
+
+export const useNomeHook = () => {
+  const [state, setState] = useState(initialState)
+  
+  // Lógica do hook
+  
+  return { state, setState }
+}
+```
+
+### Nova Feature Screen
+
+```typescript
+// src/features/nova-feature/screens/nova-screen/index.tsx
+import { ComponenteEspecifico } from './_components/ComponenteEspecifico'
+import { useNovaScreen } from './_hooks/useNovaScreen'
+
+export const NovaScreen = () => {
+  const { data, loading } = useNovaScreen()
+  
+  return (
+    <div>
+      <ComponenteEspecifico data={data} loading={loading} />
+    </div>
+  )
+}
+```
+
+## Linting e Formatação
+
+- Use ESLint com configuração TypeScript
+- Use Prettier para formatação
+- Configure pre-commit hooks se necessário
+- Mantenha código limpo e bem documentado
+
+## Notas Importantes
+
+- Sempre priorize reutilização de componentes
+- Mantenha separação clara entre features
+- Use tipagem estrita em todo o projeto
+- Documente componentes complexos
+- Siga as convenções de nomenclatura estabelecidas 
