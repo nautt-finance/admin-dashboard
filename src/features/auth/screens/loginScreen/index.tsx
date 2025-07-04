@@ -7,7 +7,6 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -19,16 +18,12 @@ const LoginScreen = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <LanguageSelector />
       <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+        <CardHeader className="w-72">
+          <CardTitle>Bem vindo de volta!</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Digite seu nome de usuário e senha para entrar em sua conta!
           </CardDescription>
-          <CardAction>
-            <Button variant="link">Sign Up</Button>
-          </CardAction>
         </CardHeader>
         <CardContent>
           <LoginForm onSubmit={handleLogin} />

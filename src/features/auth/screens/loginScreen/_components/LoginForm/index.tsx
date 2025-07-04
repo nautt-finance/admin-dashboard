@@ -4,7 +4,6 @@ import { LoginFormData, loginSchema } from "../../_schema/login.schema";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/Form";
-import { CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 interface LoginFormProps {
@@ -24,32 +23,26 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
         <div className="flex flex-col gap-6">
           <div className="grid gap-2">
             <Form.TextField
-              label="Email"
-              name="email"
-              type="email"
-              placeholder="m@example.com"
+              label="Nome de usuário"
+              name="username"
+              type="text"
+              placeholder="Digite seu nome de usuário"
               required
             />
           </div>
-          <div className="grid gap-2">
-            <div className="flex items-center">
-              <Form.Label htmlFor="password">Password</Form.Label>
-              <a
-                href="#"
-                className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-              >
-                Forgot your password?
-              </a>
-            </div>
-            <Form.TextPasswordField name="password" type="password" required />
-          </div>
+          <Form.TextPasswordField
+            label="Senha"
+            name="password"
+            required
+            placeholder="Digite sua senha"
+          />
         </div>
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col gap-2 mt-6">
           <Button type="submit" className="w-full">
-            Login
+            Entrar
           </Button>
-          <Button variant="outline" className="w-full">
-            Login with Google
+          <Button variant="ghost" className="w-full">
+            Esqueci minha senha
           </Button>
         </div>
       </form>
