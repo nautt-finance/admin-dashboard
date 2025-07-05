@@ -12,7 +12,11 @@
     "description": "Entre na sua conta Nautt",
     "heading": "Entrar na sua conta",
     "submitButton": "Entrar",
-    "forgotPassword": "Esqueceu sua senha?"
+    "forgotPassword": "Esqueceu sua senha?",
+    "username": "Nome de usuário",
+    "usernamePlaceholder": "Digite seu nome de usuário",
+    "passwordPlaceholder": "Digite sua senha",
+    "forgotPasswordButton": "Esqueci minha senha"
   },
   "Navigation": {
     "dashboard": "Painel",

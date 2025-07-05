@@ -12,7 +12,11 @@
     "description": "Login to your Nautt account",
     "heading": "Sign in to your account",
     "submitButton": "Sign in",
-    "forgotPassword": "Forgot your password?"
+    "forgotPassword": "Forgot your password?",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "passwordPlaceholder": "Enter your password",
+    "forgotPasswordButton": "Forgot my password"
   },
   "Navigation": {
     "dashboard": "Dashboard",

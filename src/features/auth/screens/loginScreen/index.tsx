@@ -1,10 +1,8 @@
 "use client";
 
 import { LanguageSelector } from "@/components/LanguageSelector";
-import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -12,18 +10,21 @@ import {
 } from "@/components/ui/card";
 import { LoginForm } from "./_components/LoginForm";
 import { useLogin } from "./_hooks/useLogin";
+import { useTranslations } from "next-intl";
 
 const LoginScreen = () => {
   const { handleLogin } = useLogin();
+  const t = useTranslations("LoginPage");
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen bg-accent">
+      <div className="absolute top-4 right-4">
+        <LanguageSelector />
+      </div>
       <Card className="w-full max-w-sm">
         <CardHeader className="w-72">
-          <CardTitle>Bem vindo de volta!</CardTitle>
-          <CardDescription>
-            Digite seu nome de usuário e senha para entrar em sua conta!
-          </CardDescription>
+          <CardTitle>{t("heading")}</CardTitle>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <LoginForm onSubmit={handleLogin} />
