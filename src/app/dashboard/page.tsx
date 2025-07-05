@@ -1,4 +1,4 @@
-import { LoginScreen } from "@/features/auth/screens/loginScreen";
+import { DashboardScreen } from "@/features/dashboard/screens";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
@@ -12,5 +12,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function LoginPage() {
-  return <LoginScreen />;
+  return <DashboardScreen />;
 }

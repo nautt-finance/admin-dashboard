@@ -23,5 +23,119 @@
     "transactions": "Transações",
     "reports": "Relatórios",
     "settings": "Configurações"
+  },
+  "DashboardPage": {
+    "title": "Dashboard Financeiro",
+    "description": "Visão geral das suas finanças",
+    "cashflow": {
+      "title": "Fluxo de Caixa",
+      "totalRevenue": "Total de Receitas",
+      "totalExpenses": "Total de Despesas",
+      "netBalance": "Saldo Líquido",
+      "periods": {
+        "daily": "Diário",
+        "weekly": "Semanal",
+        "monthly": "Mensal",
+        "yearly": "Anual"
+      }
+    },
+    "charts": {
+      "revenueVsExpenses": "Receitas vs Despesas",
+      "totalRevenue": "Total de Receitas",
+      "totalExpenses": "Total de Despesas",
+      "netProfit": "Lucro Líquido",
+      "chartTypes": {
+        "line": "Linha",
+        "area": "Área",
+        "pie": "Pizza"
+      }
+    },
+    "liquidity": {
+      "title": "Indicadores de Liquidez e Solvência",
+      "workingCapital": "Capital de Giro",
+      "cashEquivalents": "Caixa e Equivalentes",
+      "currentRatio": "Liquidez Corrente",
+      "debt": "Endividamento",
+      "detailedAnalysis": "Análise Detalhada",
+      "indicators": {
+        "currentRatio": "Liquidez Corrente",
+        "quickRatio": "Liquidez Seca",
+        "cashRatio": "Liquidez Imediata",
+        "debtToEquity": "Endividamento sobre Patrimônio",
+        "debtToAssets": "Endividamento sobre Ativos"
+      },
+      "status": {
+        "good": "Bom",
+        "warning": "Atenção",
+        "critical": "Crítico"
+      },
+      "summary": {
+        "title": "Resumo da Situação Financeira",
+        "strengths": "Pontos Fortes",
+        "concerns": "Pontos de Atenção"
+      }
+    },
+    "dueAlerts": {
+      "title": "Alertas de Vencimento",
+      "urgentBills": "Contas Urgentes",
+      "totalPending": "Total Pendente",
+      "totalOverdue": "Total Vencido",
+      "billsToPay": "Contas a Pagar",
+      "newBill": "Nova Conta",
+      "recipient": "Destinatário",
+      "amount": "Valor",
+      "dueDate": "Vencimento",
+      "status": "Status",
+      "frequency": "Frequência",
+      "category": "Categoria",
+      "filters": {
+        "all": "Todas",
+        "pending": "Pendentes",
+        "overdue": "Vencidas",
+        "byDate": "Por Data",
+        "byAmount": "Por Valor"
+      },
+      "statuses": {
+        "paid": "Pago",
+        "pending": "Pendente",
+        "overdue": "Vencido",
+        "urgent": "Urgente",
+        "attention": "Atenção"
+      },
+      "frequencies": {
+        "once": "Uma vez",
+        "monthly": "Mensal",
+        "quarterly": "Trimestral",
+        "yearly": "Anual"
+      },
+      "exportReport": "Exportar Relatório"
+    },
+    "accounts": {
+      "title": "Status das Contas",
+      "totalAccounts": "Total de Contas",
+      "connected": "Conectadas",
+      "disconnected": "Desconectadas",
+      "totalBalance": "Saldo Total",
+      "banks": "Bancos",
+      "brokers": "Corretoras",
+      "sync": "Sincronizar",
+      "newAccount": "Nova Conta",
+      "statusSummary": "Resumo por Status",
+      "connectedAccounts": "Contas Conectadas",
+      "disconnectedAccounts": "Contas Desconectadas",
+      "errorAccounts": "Com Erro",
+      "lastSync": "Última sincronização",
+      "balance": "Saldo",
+      "statuses": {
+        "connected": "Conectado",
+        "disconnected": "Desconectado",
+        "error": "Erro"
+      },
+      "descriptions": {
+        "connected": "Sincronização automática ativa",
+        "disconnected": "Requerem reautorização",
+        "error": "Necessitam intervenção manual"
+      }
+    }
   }
 }
