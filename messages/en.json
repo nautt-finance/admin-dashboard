@@ -23,5 +23,119 @@
     "transactions": "Transactions",
     "reports": "Reports",
     "settings": "Settings"
+  },
+  "DashboardPage": {
+    "title": "Financial Dashboard",
+    "description": "Overview of your finances",
+    "cashflow": {
+      "title": "Cash Flow",
+      "totalRevenue": "Total Revenue",
+      "totalExpenses": "Total Expenses",
+      "netBalance": "Net Balance",
+      "periods": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "yearly": "Yearly"
+      }
+    },
+    "charts": {
+      "revenueVsExpenses": "Revenue vs Expenses",
+      "totalRevenue": "Total Revenue",
+      "totalExpenses": "Total Expenses",
+      "netProfit": "Net Profit",
+      "chartTypes": {
+        "line": "Line",
+        "area": "Area",
+        "pie": "Pie"
+      }
+    },
+    "liquidity": {
+      "title": "Liquidity and Solvency Indicators",
+      "workingCapital": "Working Capital",
+      "cashEquivalents": "Cash and Equivalents",
+      "currentRatio": "Current Ratio",
+      "debt": "Debt",
+      "detailedAnalysis": "Detailed Analysis",
+      "indicators": {
+        "currentRatio": "Current Ratio",
+        "quickRatio": "Quick Ratio",
+        "cashRatio": "Cash Ratio",
+        "debtToEquity": "Debt to Equity",
+        "debtToAssets": "Debt to Assets"
+      },
+      "status": {
+        "good": "Good",
+        "warning": "Warning",
+        "critical": "Critical"
+      },
+      "summary": {
+        "title": "Financial Situation Summary",
+        "strengths": "Strengths",
+        "concerns": "Concerns"
+      }
+    },
+    "dueAlerts": {
+      "title": "Due Date Alerts",
+      "urgentBills": "Urgent Bills",
+      "totalPending": "Total Pending",
+      "totalOverdue": "Total Overdue",
+      "billsToPay": "Bills to Pay",
+      "newBill": "New Bill",
+      "recipient": "Recipient",
+      "amount": "Amount",
+      "dueDate": "Due Date",
+      "status": "Status",
+      "frequency": "Frequency",
+      "category": "Category",
+      "filters": {
+        "all": "All",
+        "pending": "Pending",
+        "overdue": "Overdue",
+        "byDate": "By Date",
+        "byAmount": "By Amount"
+      },
+      "statuses": {
+        "paid": "Paid",
+        "pending": "Pending",
+        "overdue": "Overdue",
+        "urgent": "Urgent",
+        "attention": "Attention"
+      },
+      "frequencies": {
+        "once": "Once",
+        "monthly": "Monthly",
+        "quarterly": "Quarterly",
+        "yearly": "Yearly"
+      },
+      "exportReport": "Export Report"
+    },
+    "accounts": {
+      "title": "Account Status",
+      "totalAccounts": "Total Accounts",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "totalBalance": "Total Balance",
+      "banks": "Banks",
+      "brokers": "Brokers",
+      "sync": "Sync",
+      "newAccount": "New Account",
+      "statusSummary": "Status Summary",
+      "connectedAccounts": "Connected Accounts",
+      "disconnectedAccounts": "Disconnected Accounts",
+      "errorAccounts": "Error Accounts",
+      "lastSync": "Last sync",
+      "balance": "Balance",
+      "statuses": {
+        "connected": "Connected",
+        "disconnected": "Disconnected",
+        "error": "Error"
+      },
+      "descriptions": {
+        "connected": "Automatic sync active",
+        "disconnected": "Require re-authorization",
+        "error": "Need manual intervention"
+      }
+    }
   }
 }

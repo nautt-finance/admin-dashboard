@@ -9,7 +9,7 @@ const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BASE_URL,
     headers: {
-      Authorization: token ? `Bearer ${token}` : "",
+      Authorization: token ? `Bearer ${decodeURIComponent(token)}` : "",
     },
   });
 

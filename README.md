@@ -68,3 +68,6 @@ src/
 - Os estilos globais estão em `app/globals.css`.
 
 ---
+
+acc: fish
+senha: Jx618EWBLOzFYL3T

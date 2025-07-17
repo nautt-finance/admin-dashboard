@@ -132,44 +132,6 @@ const RevenueExpenseChart = ({ className }: RevenueExpenseChartProps) => {
       </div>
 
       {renderChart()}
-
-      {/* Resumo estatístico */}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground">Total de Receitas</p>
-          <p className="text-2xl font-bold text-green-600">
-            {new Intl.NumberFormat("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            }).format(
-              timeSeriesData.reduce((sum, item) => sum + item.revenue, 0)
-            )}
-          </p>
-        </div>
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground">Total de Despesas</p>
-          <p className="text-2xl font-bold text-red-600">
-            {new Intl.NumberFormat("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            }).format(
-              timeSeriesData.reduce((sum, item) => sum + item.expenses, 0)
-            )}
-          </p>
-        </div>
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground">Lucro Líquido</p>
-          <p className="text-2xl font-bold text-blue-600">
-            {new Intl.NumberFormat("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            }).format(
-              timeSeriesData.reduce((sum, item) => sum + item.revenue, 0) -
-                timeSeriesData.reduce((sum, item) => sum + item.expenses, 0)
-            )}
-          </p>
-        </div>
-      </div>
     </Card>
   );
 };
