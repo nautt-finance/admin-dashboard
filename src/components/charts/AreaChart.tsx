@@ -61,7 +61,7 @@ const AreaChart = ({
                 <ChartTooltip
                   active={active}
                   payload={payload}
-                  label={label}
+                  label={label as any}
                   config={config}
                 />
               )}
@@ -70,7 +70,7 @@ const AreaChart = ({
           {showLegend && (
             <Legend
               content={({ payload }) => (
-                <ChartLegend payload={payload} config={config} />
+                <ChartLegend payload={payload as any} config={config} />
               )}
             />
           )}

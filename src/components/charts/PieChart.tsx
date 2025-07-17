@@ -50,7 +50,7 @@ const PieChart = ({
             label={
               showLabels
                 ? ({ name, percent }) =>
-                    `${name} ${(percent * 100).toFixed(0)}%`
+                    `${name} ${(percent ?? 0 * 100).toFixed(0)}%`
                 : false
             }
             outerRadius={80}
@@ -71,7 +71,7 @@ const PieChart = ({
                 <ChartTooltip
                   active={active}
                   payload={payload}
-                  label={label}
+                  label={label as any}
                   config={config}
                 />
               )}
@@ -80,7 +80,7 @@ const PieChart = ({
           {showLegend && (
             <Legend
               content={({ payload }) => (
-                <ChartLegend payload={payload} config={config} />
+                <ChartLegend payload={payload as any} config={config} />
               )}
             />
           )}
