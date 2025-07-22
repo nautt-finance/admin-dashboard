@@ -2,14 +2,10 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { CashflowSummary } from "./dashboardScreen/_components/CashflowSummary";
 import { RevenueExpenseChart } from "./dashboardScreen/_components/RevenueExpenseChart";
-import { CashflowKpis } from "./dashboardScreen/_components/CashflowSummary/_components/CashflowKpis";
 import { PeriodType } from "@/components/ui/period-filter";
-import {
-  mockData,
-  chartConfig,
-} from "./dashboardScreen/_components/CashflowSummary/_data/mockData";
+import { mockData } from "./dashboardScreen/_components/CashflowSummary/_data/mockData";
+import { CashflowKpis } from "./dashboardScreen/_components/CashflowSummary/_components/CashflowKpis";
 
 const DashboardScreen: React.FC = () => {
   const t = useTranslations("DashboardPage");
