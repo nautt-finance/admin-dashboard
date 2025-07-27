@@ -53,8 +53,8 @@ const items: MenuItem[] = [
     title: "Conta",
     icon: Users,
     submenus: [
-      { title: "Visualizar", url: "#" },
-      { title: "Cadastrar", url: "#" },
+      { title: "Visualizar", url: "/dashboard/contas/listar" },
+      { title: "Cadastrar", url: "/dashboard/contas/cadastrar" },
     ],
   },
   {

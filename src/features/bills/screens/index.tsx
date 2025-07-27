@@ -1,0 +1,1 @@
+export { ListarContasScreen } from "./listarContas";
