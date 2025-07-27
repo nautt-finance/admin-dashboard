@@ -27,11 +27,20 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center gap-4">
         <CardTitle className="flex items-center gap-2">
           <Filter className="h-5 w-5" />
           {title}
         </CardTitle>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onClear}
+          className="flex items-center gap-2 ml-auto"
+        >
+          <RotateCcw className="h-4 w-4" />
+          Limpar
+        </Button>
       </CardHeader>
       <CardContent>
         <FormProvider {...form}>
@@ -40,22 +49,6 @@ const FilterWrapper: React.FC<FilterWrapperProps> = ({
             className="space-y-4"
           >
             {children}
-
-            <div className="flex gap-2 pt-4">
-              <Button type="submit" className="flex items-center gap-2">
-                <Filter className="h-4 w-4" />
-                Aplicar Filtros
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onClear}
-                className="flex items-center gap-2"
-              >
-                <RotateCcw className="h-4 w-4" />
-                Limpar
-              </Button>
-            </div>
           </form>
         </FormProvider>
       </CardContent>
