@@ -10,7 +10,7 @@ import {
   Banknote,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
   Sidebar,
@@ -78,6 +78,7 @@ const items: MenuItem[] = [
 
 export function AppSidebar() {
   const [expandedMenus, setExpandedMenus] = useState<Set<string>>(new Set());
+  const [mounted, setMounted] = useState(false);
 
   const toggleMenu = (title: string) => {
     setExpandedMenus((prev) => {
@@ -92,13 +93,19 @@ export function AppSidebar() {
   };
 
   const isMenuExpanded = (title: string) => expandedMenus.has(title);
-  const theme = useTheme();
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
           <Image
-            src={theme.theme === "dark" ? "/logo-dark.png" : "/logo-light.png"}
+            src={
+              mounted && theme === "dark" ? "/logo-dark.png" : "/logo-light.png"
+            }
             alt="Nautt Finance"
             width={132}
             height={52}

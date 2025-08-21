@@ -1,44 +1,34 @@
-import { useState, useEffect, useMemo } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { FiltersFormData } from "../_schema/filters.schema";
-import { Bank } from "@/features/banks/types";
+import { getBanks } from "../api/getBanks";
+import { useDebounce } from "@/hooks/useDebounce";
+import { deleteBank } from "../api/deleteBanks";
 
 export const useBanks = (filters?: FiltersFormData) => {
-  const [allBanks, setAllBanks] = useState<Bank[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const debouncedFilters = useDebounce(filters, 500);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const loadBills = async () => {
-      try {
-        setIsLoading(true);
-        // Simulando uma chamada à API
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (err) {
-        setError("Erro ao carregar as contas");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const {
+    data: banks,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["get-banks-items", debouncedFilters],
+    queryFn: () => getBanks(debouncedFilters),
+  });
 
-    loadBills();
-  }, []);
-
-  const filteredBanks = useMemo(() => {
-    if (!filters) return allBanks;
-
-    let filtered = [...allBanks];
-
-    if (filters.nome) {
-      filtered = filtered.filter((bank) =>
-        bank.nome.toLowerCase().includes(filters.nome!.toLowerCase())
-      );
+  const handleDeleteBank = async (id: string) => {
+    try {
+      await deleteBank(id);
+      queryClient.invalidateQueries({ queryKey: ["get-banks-items"] });
+    } catch (err) {
+      console.log(err);
     }
-
-    return filtered;
-  }, [allBanks, filters]);
+  };
 
   return {
-    banks: filteredBanks,
+    banks,
+    handleDeleteBank,
     isLoading,
     error,
   };

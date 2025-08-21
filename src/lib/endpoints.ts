@@ -7,12 +7,12 @@ export const endpoints = {
     list: "/despesas",
     create: "/despesas",
     update: "/despesas/:id",
-    delete: "/despesas/:id",
+    delete: (id: string) => `/despesas/${id}`,
   },
   bank: {
     list: "/bancos-nautt",
     create: "/bancos-nautt",
-    update: "/bancos-nautt/:id",
-    delete: "/bancos-nautt/:id",
+    update: (id: string) => `/bancos-nautt/${id}`,
+    delete: (id: string) => `/bancos-nautt?banco_id=${id}`,
   },
 };
