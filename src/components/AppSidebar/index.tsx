@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Users,
   CreditCard,
+  Banknote,
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -50,12 +51,14 @@ const items: MenuItem[] = [
     icon: Home,
   },
   {
-    title: "Conta",
+    title: "Despesas",
     icon: Users,
-    submenus: [
-      { title: "Visualizar", url: "/dashboard/contas/listar" },
-      { title: "Cadastrar", url: "/dashboard/contas/cadastrar" },
-    ],
+    submenus: [{ title: "Gerir Contas", url: "/dashboard/contas/listar" }],
+  },
+  {
+    title: "Bancos",
+    icon: Banknote,
+    submenus: [{ title: "Gerenciar Bancos", url: "/dashboard/bancos/listar" }],
   },
   {
     title: "Financeiro",

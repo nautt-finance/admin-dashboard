@@ -4,20 +4,20 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { BillsTable } from "./_components/BillsTable";
-import { BillsFilters } from "./_components/BillsFilters";
-import { ExpenseModal } from "./_components/ExpenseModal";
-import { useBills } from "./_hooks/useBills";
+import { BanksFilters } from "./_components/BanksFilters";
+import { BankModal } from "./_components/BankModal";
+import { useBanks } from "./_hooks/useBanks";
 import { useFilters } from "./_hooks/useFilters";
 import { FiltersFormData } from "./_schema/filters.schema";
+import { BanksTable } from "./_components/BanksTable";
 
-const ListarContasScreen = () => {
-  const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+const ListarBancosScreen = () => {
+  const [isBankModalOpen, setBankModalOpen] = useState(false);
   const { form, clearFilters } = useFilters();
 
   const formValues = form.watch();
 
-  const { bills, isLoading, error } = useBills(formValues);
+  const { banks, isLoading, error } = useBanks(formValues);
 
   const handleApplyFilters = (_filters: FiltersFormData) => {
     // TODO: Implementar a lógica de aplicação dos filtros
@@ -46,14 +46,12 @@ const ListarContasScreen = () => {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Contas a Pagar
-          </h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Bancos</h1>
           <p className="text-muted-foreground">
-            Gerencie e visualize todas as suas contas a pagar em um só lugar
+            Gerencie e visualize todos os seus bancos em um só lugar
           </p>
         </div>
-        <BillsFilters
+        <BanksFilters
           form={form}
           onApplyFilters={handleApplyFilters}
           onClearFilters={handleClearFilters}
@@ -62,32 +60,29 @@ const ListarContasScreen = () => {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Lista de Contas</CardTitle>
+                <CardTitle>Lista de Bancos</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  {bills.length}{" "}
-                  {bills.length === 1
-                    ? "conta encontrada"
-                    : "contas encontradas"}
+                  {banks.length}{" "}
+                  {banks.length === 1
+                    ? "banco encontrado"
+                    : "bancos encontrados"}
                 </p>
               </div>
-              <Button onClick={() => setIsExpenseModalOpen(true)}>
+              <Button onClick={() => setBankModalOpen(true)}>
                 <Plus className="mr-2 h-4 w-4" />
-                Nova Despesa
+                Novo Banco
               </Button>
             </div>
           </CardHeader>
           <CardContent>
-            <BillsTable bills={bills} isLoading={isLoading} />
+            <BanksTable banks={banks} isLoading={isLoading} />
           </CardContent>
         </Card>
 
-        <ExpenseModal
-          open={isExpenseModalOpen}
-          onOpenChange={setIsExpenseModalOpen}
-        />
+        <BankModal open={isBankModalOpen} onOpenChange={setBankModalOpen} />
       </div>
     </div>
   );
 };
 
-export { ListarContasScreen };
+export { ListarBancosScreen };

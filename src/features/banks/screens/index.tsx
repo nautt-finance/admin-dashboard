@@ -1,0 +1,1 @@
+export { ListarBancosScreen } from "./listarBancos";
