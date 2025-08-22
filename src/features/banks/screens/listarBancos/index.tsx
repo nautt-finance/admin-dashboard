@@ -4,30 +4,32 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { BanksFilters } from "./_components/BanksFilters";
 import { BankModal } from "./_components/BankModal";
 import { useBanks } from "./_hooks/useBanks";
 import { useFilters } from "./_hooks/useFilters";
-import { FiltersFormData } from "./_schema/filters.schema";
 import { BanksTable } from "./_components/BanksTable";
 import { Bank } from "../../types";
+
+// FILTERS:
+// import { BanksFilters } from "./_components/BanksFilters";
+// import { FiltersFormData } from "./_schema/filters.schema";
 
 const ListarBancosScreen = () => {
   const [isBankModalOpen, setBankModalOpen] = useState(false);
   const [selectedBank, setSelectedBank] = useState<Bank | undefined>(undefined);
-  const { form, clearFilters } = useFilters();
+  const { form } = useFilters();
 
   const formValues = form.watch();
 
   const { banks, handleDeleteBank, isLoading, error } = useBanks(formValues);
 
-  const handleApplyFilters = (_filters: FiltersFormData) => {
-    // TODO: Implementar a lógica de aplicação dos filtros
-  };
+  // const handleApplyFilters = (_filters: FiltersFormData) => {
+  //   // TODO: Implementar a lógica de aplicação dos filtros
+  // };
 
-  const handleClearFilters = () => {
-    clearFilters();
-  };
+  // const handleClearFilters = () => {
+  //   clearFilters();
+  // };
 
   const handleEditBank = (bank: Bank) => {
     setSelectedBank(bank);
@@ -74,11 +76,11 @@ const ListarBancosScreen = () => {
             Gerencie e visualize todos os seus bancos em um só lugar
           </p>
         </div>
-        <BanksFilters
+        {/* <BanksFilters
           form={form}
           onApplyFilters={handleApplyFilters}
           onClearFilters={handleClearFilters}
-        />
+        /> */}
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">

@@ -11,8 +11,8 @@ export const useFilters = () => {
     },
   });
 
-  const applyFilters = (bills: Bank[], filters: FiltersFormData): Bank[] => {
-    let filteredBills = [...bills];
+  const applyFilters = (banks: Bank[], filters: FiltersFormData): Bank[] => {
+    let filteredBills = [...banks];
     if (filters.nome) {
       filteredBills = filteredBills.filter((bill) =>
         bill.nome.toLowerCase().includes(filters.nome!.toLowerCase())
