@@ -12,7 +12,7 @@ export const useBills = (filters?: FiltersFormData) => {
   const debouncedFilters = useDebounce(filters, 500);
 
   const {
-    data: bills,
+    data: billsResponse,
     isLoading,
     error,
   } = useQuery({
@@ -37,7 +37,15 @@ export const useBills = (filters?: FiltersFormData) => {
   }, [banks]);
 
   return {
-    bills,
+    bills: billsResponse?.data,
+    total: billsResponse?.total,
+    currentPage: billsResponse?.current_page,
+    perPage: billsResponse?.per_page,
+    lastPage: billsResponse?.last_page,
+    from: billsResponse?.from,
+    to: billsResponse?.to,
+    nextPage: billsResponse?.next_page_url,
+    prevPage: billsResponse?.prev_page_url,
     banks,
     bankOptions,
     coins,
