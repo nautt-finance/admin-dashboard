@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -13,11 +13,28 @@ import { FiltersFormData } from "./_schema/filters.schema";
 
 const ListarContasScreen = () => {
   const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+  const [currentPageState, setCurrentPageState] = useState(1);
+  const [itemsPerPage] = useState(20);
   const { form, clearFilters } = useFilters();
 
   const formValues = form.watch();
 
-  const { bills, coins, bankOptions, isLoading, error } = useBills(formValues);
+  const {
+    bills,
+    coins,
+    bankOptions,
+    isLoading,
+    error,
+    total,
+    currentPage,
+    lastPage,
+    from,
+    to,
+  } = useBills(formValues, currentPageState, itemsPerPage);
+
+  useEffect(() => {
+    setCurrentPageState(1);
+  }, [formValues]);
 
   const handleApplyFilters = (_filters: FiltersFormData) => {
     // TODO: Implementar a lógica de aplicação dos filtros
@@ -79,7 +96,18 @@ const ListarContasScreen = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <BillsTable bills={bills || []} isLoading={isLoading} />
+            <BillsTable
+              bills={bills || []}
+              isLoading={isLoading}
+              currentPage={currentPage}
+              totalPages={lastPage}
+              onPageChange={(page) => {
+                setCurrentPageState(page);
+              }}
+              from={from}
+              to={to}
+              total={total}
+            />
           </CardContent>
         </Card>
 

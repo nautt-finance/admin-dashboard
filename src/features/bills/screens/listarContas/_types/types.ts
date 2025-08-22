@@ -43,6 +43,12 @@ export interface Bill {
 export interface BillsTableProps {
   bills: Bill[];
   isLoading?: boolean;
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
+  from?: number;
+  to?: number;
+  total?: number;
 }
 
 export interface Coin {

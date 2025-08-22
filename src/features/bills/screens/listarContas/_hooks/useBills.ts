@@ -6,7 +6,11 @@ import { getBills } from "../api/getBills";
 import { useGetCoins } from "./useGetCoins";
 import { useMemo } from "react";
 
-export const useBills = (filters?: FiltersFormData) => {
+export const useBills = (
+  filters?: FiltersFormData,
+  pagina?: number,
+  itens_pagina: number = 20
+) => {
   const { banks } = useBanks();
   const { coins: rawCoins } = useGetCoins();
   const debouncedFilters = useDebounce(filters, 500);
@@ -16,8 +20,8 @@ export const useBills = (filters?: FiltersFormData) => {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["get-bills-items", debouncedFilters],
-    queryFn: () => getBills(debouncedFilters),
+    queryKey: ["get-bills-items", debouncedFilters, pagina, itens_pagina],
+    queryFn: () => getBills(debouncedFilters, pagina, itens_pagina),
   });
 
   const coins = useMemo(() => {
@@ -46,6 +50,7 @@ export const useBills = (filters?: FiltersFormData) => {
     to: billsResponse?.to,
     nextPage: billsResponse?.next_page_url,
     prevPage: billsResponse?.prev_page_url,
+    itens_pagina,
     banks,
     bankOptions,
     coins,

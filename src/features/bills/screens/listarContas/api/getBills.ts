@@ -5,8 +5,15 @@ import { Bill } from "@/features/bills/screens/listarContas/_types/types";
 import { PaginatedApiResponse } from "@/types/paginatedApi";
 
 export const getBills = async (
-  filters?: FiltersFormData
+  filters?: FiltersFormData,
+  pagina?: number,
+  itens_pagina?: number
 ): Promise<PaginatedApiResponse<Bill>> => {
-  const response = await api.get(endpoints.bills.list, { params: filters });
+  const params = {
+    ...filters,
+    pagina,
+    itens_pagina,
+  };
+  const response = await api.get(endpoints.bills.list, { params });
   return response.data.dados;
 };

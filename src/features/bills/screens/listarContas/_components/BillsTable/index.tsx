@@ -1,9 +1,19 @@
 import { DataTable, Column } from "@/components/ui/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TablePagination } from "@/components/ui/table-pagination";
 import { Bill, BillsTableProps } from "../../_types/types";
 
-const BillsTable: React.FC<BillsTableProps> = ({ bills, isLoading }) => {
+const BillsTable: React.FC<BillsTableProps> = ({
+  bills,
+  isLoading,
+  currentPage = 1,
+  totalPages = 1,
+  onPageChange,
+  from,
+  to,
+  total,
+}) => {
   const formatCurrency = (value: string, currency: string = "BRL") => {
     const numericValue = parseFloat(value);
     return new Intl.NumberFormat("pt-BR", {
@@ -116,7 +126,20 @@ const BillsTable: React.FC<BillsTableProps> = ({ bills, isLoading }) => {
   }
 
   return (
-    <DataTable data={bills} columns={columns} className="border rounded-lg" />
+    <div className="space-y-4">
+      <DataTable data={bills} columns={columns} className="border rounded-lg" />
+      {onPageChange && totalPages > 1 && (
+        <TablePagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          showInfo={true}
+          from={from}
+          to={to}
+          total={total}
+        />
+      )}
+    </div>
   );
 };
 
