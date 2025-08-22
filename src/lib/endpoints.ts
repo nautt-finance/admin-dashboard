@@ -4,15 +4,18 @@ export const endpoints = {
     me: "/me",
   },
   bills: {
-    list: "/despesas",
+    list: "/despesas/busca",
     create: "/despesas",
     update: "/despesas/:id",
     delete: (id: string) => `/despesas/${id}`,
   },
+  coins: {
+    list: "/moedas",
+  },
   bank: {
     list: "/bancos-nautt",
     create: "/bancos-nautt",
-    update: (id: string) => `/bancos-nautt?banco_id=${id}`,
+    update: `/bancos-nautt`,
     delete: (id: string) => `/bancos-nautt?banco_id=${id}`,
   },
 };

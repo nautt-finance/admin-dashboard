@@ -1,2 +1,2 @@
 export * from "./screens";
-export * from "./types";
+export * from "./screens/listarContas/_types/types";

@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { endpoints } from "@/lib/endpoints";
-import { api } from "@/lib/api";
 import { BankFormData, bankSchema } from "../_schema/bank.schema";
 import { useQueryClient } from "@tanstack/react-query";
+import { editBank } from "../api/editBank";
+import { createBank } from "../api/createBank";
 
 export const useBanksForm = () => {
   const queryClient = useQueryClient();
@@ -20,7 +20,7 @@ export const useBanksForm = () => {
 
   const onSubmit = async (data: BankFormData) => {
     try {
-      await api.post(endpoints.bank.create, { ...data });
+      createBank(data);
       reset();
       queryClient.invalidateQueries({ queryKey: ["get-banks-items"] });
       toast.success("Banco cadastrado com sucesso!", {
@@ -39,7 +39,7 @@ export const useBanksForm = () => {
 
   const handleEditBank = async (id: string, bank: BankFormData) => {
     try {
-      await api.put(endpoints.bank.update(id), { ...bank });
+      await editBank(id, bank);
       reset();
       queryClient.invalidateQueries({ queryKey: ["get-banks-items"] });
       toast.success("Banco editado com sucesso!", {

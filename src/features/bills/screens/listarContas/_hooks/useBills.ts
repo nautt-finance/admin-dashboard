@@ -1,83 +1,51 @@
-import { useState, useEffect, useMemo } from "react";
-import { mockBills } from "../_data/mockData";
-import { Bill } from "@/features/bills/types";
 import { FiltersFormData } from "../_schema/filters.schema";
+import { useBanks } from "@/features/banks/screens/listarBancos/_hooks/useBanks";
+import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "@/hooks/useDebounce";
+import { getBills } from "../api/getBills";
+import { useGetCoins } from "./useGetCoins";
+import { useMemo } from "react";
 
 export const useBills = (filters?: FiltersFormData) => {
-  const [allBills, setAllBills] = useState<Bill[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { banks } = useBanks();
+  const { coins: rawCoins } = useGetCoins();
+  const debouncedFilters = useDebounce(filters, 500);
 
-  useEffect(() => {
-    const loadBills = async () => {
-      try {
-        setIsLoading(true);
-        // Simulando uma chamada à API
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setAllBills(mockBills);
-      } catch (err) {
-        setError("Erro ao carregar as contas");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadBills();
-  }, []);
-
-  // Aplicar filtros de forma memoizada
-  const filteredBills = useMemo(() => {
-    if (!filters) return allBills;
-
-    let filtered = [...allBills];
-
-    // Filtro por data inicial
-    if (filters.startDate) {
-      filtered = filtered.filter(
-        (bill) => new Date(bill.dueDate) >= new Date(filters.startDate!)
-      );
-    }
-
-    // Filtro por data final
-    if (filters.endDate) {
-      filtered = filtered.filter(
-        (bill) => new Date(bill.dueDate) <= new Date(filters.endDate!)
-      );
-    }
-
-    // Filtro por categoria
-    if (filters.category) {
-      filtered = filtered.filter((bill) =>
-        bill.category.toLowerCase().includes(filters.category!.toLowerCase())
-      );
-    }
-
-    return filtered;
-  }, [allBills, filters]);
-
-  const getTotalAmount = () => {
-    return filteredBills.reduce((total, bill) => total + bill.amount, 0);
-  };
-
-  const getPendingBills = () => {
-    return filteredBills.filter((bill) => bill.status === "pending");
-  };
-
-  const getOverdueBills = () => {
-    return filteredBills.filter((bill) => bill.status === "overdue");
-  };
-
-  const getPaidBills = () => {
-    return filteredBills.filter((bill) => bill.status === "paid");
-  };
-
-  return {
-    bills: filteredBills,
+  const {
+    data: bills,
     isLoading,
     error,
-    getTotalAmount,
-    getPendingBills,
-    getOverdueBills,
-    getPaidBills,
+  } = useQuery({
+    queryKey: ["get-bills-items", debouncedFilters],
+    queryFn: () => getBills(debouncedFilters),
+  });
+
+  const coins = useMemo(() => {
+    if (!rawCoins) return [];
+    return rawCoins.map((coin) => ({
+      value: coin.id.toString(),
+      label: coin.nome,
+    }));
+  }, [rawCoins]);
+
+  const bankOptions = useMemo(() => {
+    if (!banks) return [];
+    return banks.map((bank) => ({
+      value: bank.id.toString(),
+      label: bank.nome,
+    }));
+  }, [banks]);
+
+  return {
+    bills,
+    banks,
+    bankOptions,
+    coins,
+    isLoading,
+    error,
+    getTotalAmount: 0,
+    getPendingBills: 0,
+    getOverdueBills: 0,
+    getPaidBills: 0,
   };
 };

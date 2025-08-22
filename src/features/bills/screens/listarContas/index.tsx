@@ -17,7 +17,7 @@ const ListarContasScreen = () => {
 
   const formValues = form.watch();
 
-  const { bills, isLoading, error } = useBills(formValues);
+  const { bills, coins, bankOptions, isLoading, error } = useBills(formValues);
 
   const handleApplyFilters = (_filters: FiltersFormData) => {
     // TODO: Implementar a lógica de aplicação dos filtros
@@ -34,7 +34,9 @@ const ListarContasScreen = () => {
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <h2 className="text-2xl font-bold text-destructive mb-2">Erro</h2>
-              <p className="text-muted-foreground">{error}</p>
+              <p className="text-muted-foreground">
+                {error.message || "Erro ao carregar as contas"}
+              </p>
             </div>
           </div>
         </div>
@@ -64,8 +66,8 @@ const ListarContasScreen = () => {
               <div>
                 <CardTitle>Lista de Contas</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  {bills.length}{" "}
-                  {bills.length === 1
+                  {bills?.length}{" "}
+                  {bills?.length === 1
                     ? "conta encontrada"
                     : "contas encontradas"}
                 </p>
@@ -77,13 +79,15 @@ const ListarContasScreen = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <BillsTable bills={bills} isLoading={isLoading} />
+            <BillsTable bills={bills || []} isLoading={isLoading} />
           </CardContent>
         </Card>
 
         <ExpenseModal
           open={isExpenseModalOpen}
           onOpenChange={setIsExpenseModalOpen}
+          coinOptions={coins}
+          bankOptions={bankOptions}
         />
       </div>
     </div>

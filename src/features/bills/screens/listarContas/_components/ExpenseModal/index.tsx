@@ -14,12 +14,29 @@ import { SelectField } from "@/components/Form/SelectField";
 import { DateField } from "@/components/Form/DateField";
 import { useExpenseForm } from "../../_hooks/useExpenseForm";
 
+interface CoinOption {
+  value: string;
+  label: string;
+}
+
+interface BankOption {
+  value: string;
+  label: string;
+}
+
 interface ExpenseModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  coinOptions?: CoinOption[];
+  bankOptions?: BankOption[];
 }
 
-const ExpenseModal = ({ open, onOpenChange }: ExpenseModalProps) => {
+const ExpenseModal = ({
+  open,
+  onOpenChange,
+  coinOptions = [],
+  bankOptions = [],
+}: ExpenseModalProps) => {
   const { formValues, onSubmit, isLoading } = useExpenseForm();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,19 +44,6 @@ const ExpenseModal = ({ open, onOpenChange }: ExpenseModalProps) => {
     await onSubmit();
     onOpenChange(false);
   };
-
-  const moedaOptions = [
-    { value: "1", label: "Real (BRL)" },
-    { value: "2", label: "Dólar (USD)" },
-    { value: "3", label: "Euro (EUR)" },
-  ];
-
-  const bancoOptions = [
-    { value: "1", label: "Banco do Brasil" },
-    { value: "2", label: "Itaú" },
-    { value: "3", label: "Bradesco" },
-    { value: "4", label: "Santander" },
-  ];
 
   const tipoOptions = [
     { value: "direta", label: "Direta" },
@@ -65,14 +69,14 @@ const ExpenseModal = ({ open, onOpenChange }: ExpenseModalProps) => {
               <SelectField
                 label="Moeda"
                 name="moeda_id"
-                options={moedaOptions}
+                options={coinOptions}
                 placeholder="Selecione a moeda"
               />
 
               <SelectField
                 label="Banco"
                 name="banco_id"
-                options={bancoOptions}
+                options={bankOptions}
                 placeholder="Selecione o banco"
               />
 

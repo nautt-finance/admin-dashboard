@@ -1,35 +1,54 @@
 import { DataTable, Column } from "@/components/ui/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Bill, BillsTableProps } from "../../../../types";
-import { billStatusConfig } from "../../_data/mockData";
+import { Bill, BillsTableProps } from "../../_types/types";
 
 const BillsTable: React.FC<BillsTableProps> = ({ bills, isLoading }) => {
-  const formatCurrency = (value: number) => {
+  const formatCurrency = (value: string, currency: string = "BRL") => {
+    const numericValue = parseFloat(value);
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
-      currency: "BRL",
-    }).format(value);
+      currency: currency,
+    }).format(numericValue);
   };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("pt-BR");
   };
 
+  const getTipoBadge = (tipo: string) => {
+    const tipoMap = {
+      direta: { label: "Direta", variant: "default" as const },
+      indireta: { label: "Indireta", variant: "secondary" as const },
+    };
+
+    const tipoInfo = tipoMap[tipo as keyof typeof tipoMap] || {
+      label: tipo,
+      variant: "outline" as const,
+    };
+
+    return <Badge variant={tipoInfo.variant}>{tipoInfo.label}</Badge>;
+  };
+
   const columns: Column<Bill>[] = [
     {
       header: "Descrição",
-      accessor: "description",
+      accessor: "descricao",
       className: "font-medium",
     },
     {
-      header: "Fornecedor",
-      accessor: "supplier",
+      header: "Destinatário",
+      accessor: "destinatario",
+    },
+    {
+      header: "Documento",
+      accessor: "documento_destinatario",
+      className: "text-sm text-muted-foreground",
     },
     {
       header: "Valor",
-      accessor: "amount",
-      render: (value: number) => (
+      accessor: "valor",
+      render: (value: string) => (
         <span className="font-semibold text-right block">
           {formatCurrency(value)}
         </span>
@@ -37,36 +56,57 @@ const BillsTable: React.FC<BillsTableProps> = ({ bills, isLoading }) => {
       className: "text-right",
     },
     {
-      header: "Vencimento",
-      accessor: "dueDate",
+      header: "Valor USD",
+      accessor: "valor_usd",
+      render: (value: string) => (
+        <span className="font-semibold text-right block text-sm text-muted-foreground">
+          {formatCurrency(value, "USD")}
+        </span>
+      ),
+      className: "text-right",
+    },
+    {
+      header: "Data Pagamento",
+      accessor: "data_pagamento",
       render: (value: string) => formatDate(value),
     },
     {
-      header: "Status",
-      accessor: "status",
-      render: (value: Bill["status"]) => (
-        <Badge variant={billStatusConfig[value].variant}>
-          {billStatusConfig[value].label}
-        </Badge>
+      header: "Banco",
+      accessor: "banco_nautt",
+      render: (value: Bill["banco_nautt"]) => value.nome,
+    },
+    {
+      header: "Moeda",
+      accessor: "moeda",
+      render: (value: Bill["moeda"]) => (
+        <span className="text-sm">
+          {value.sigla} - {value.nome}
+        </span>
       ),
     },
     {
-      header: "Categoria",
-      accessor: "category",
+      header: "Tipo",
+      accessor: "tipo",
+      render: (value: string) => getTipoBadge(value),
+    },
+    {
+      header: "Departamento",
+      accessor: "departamento",
+      className: "text-sm text-muted-foreground",
     },
   ];
 
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <div className="grid grid-cols-6 gap-4 p-4">
-          {Array.from({ length: 6 }).map((_, i) => (
+        <div className="grid grid-cols-10 gap-4 p-4">
+          {Array.from({ length: 10 }).map((_, i) => (
             <Skeleton key={i} className="h-4 w-full" />
           ))}
         </div>
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="grid grid-cols-6 gap-4 p-4">
-            {Array.from({ length: 6 }).map((_, j) => (
+          <div key={i} className="grid grid-cols-10 gap-4 p-4">
+            {Array.from({ length: 10 }).map((_, j) => (
               <Skeleton key={j} className="h-6 w-full" />
             ))}
           </div>

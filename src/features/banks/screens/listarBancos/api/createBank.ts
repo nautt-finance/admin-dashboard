@@ -3,13 +3,9 @@ import { api } from "@/lib/api";
 import { endpoints } from "@/lib/endpoints";
 import { BankFormData } from "../_schema/bank.schema";
 
-export const editBank = async (
-  id: string,
-  bank: BankFormData
-): Promise<Bank[]> => {
-  const response = await api.put(endpoints.bank.update, {
+export const createBank = async (bank: BankFormData): Promise<Bank[]> => {
+  const response = await api.post(endpoints.bank.create, {
     ...bank,
-    banco_id: id,
   });
   return response.data.dados;
 };
