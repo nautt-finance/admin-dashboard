@@ -2,6 +2,14 @@ import { DataTable, Column } from "@/components/ui/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TablePagination } from "@/components/ui/table-pagination";
+import { TableActionButton } from "@/components/ui/table-action-button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Bill, BillsTableProps } from "../../_types/types";
 
 const BillsTable: React.FC<BillsTableProps> = ({
@@ -13,6 +21,9 @@ const BillsTable: React.FC<BillsTableProps> = ({
   from,
   to,
   total,
+  onView,
+  onEdit,
+  onDelete,
 }) => {
   const formatCurrency = (value: string, currency: string = "BRL") => {
     const numericValue = parseFloat(value);
@@ -51,26 +62,11 @@ const BillsTable: React.FC<BillsTableProps> = ({
       accessor: "destinatario",
     },
     {
-      header: "Documento",
-      accessor: "documento_destinatario",
-      className: "text-sm text-muted-foreground",
-    },
-    {
       header: "Valor",
       accessor: "valor",
       render: (value: string) => (
         <span className="font-semibold text-right block">
           {formatCurrency(value)}
-        </span>
-      ),
-      className: "text-right",
-    },
-    {
-      header: "Valor USD",
-      accessor: "valor_usd",
-      render: (value: string) => (
-        <span className="font-semibold text-right block text-sm text-muted-foreground">
-          {formatCurrency(value, "USD")}
         </span>
       ),
       className: "text-right",
@@ -86,37 +82,57 @@ const BillsTable: React.FC<BillsTableProps> = ({
       render: (value: Bill["banco_nautt"]) => value.nome,
     },
     {
-      header: "Moeda",
-      accessor: "moeda",
-      render: (value: Bill["moeda"]) => (
-        <span className="text-sm">
-          {value.sigla} - {value.nome}
-        </span>
-      ),
-    },
-    {
       header: "Tipo",
       accessor: "tipo",
       render: (value: string) => getTipoBadge(value),
     },
     {
-      header: "Departamento",
-      accessor: "departamento",
-      className: "text-sm text-muted-foreground",
+      header: "Ações",
+      accessor: "id",
+      className: "w-12",
+      render: (_, bill) => (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-40 p-0" align="end">
+            <div className="py-1">
+              <TableActionButton
+                icon={Eye}
+                label="Visualizar"
+                onClick={() => onView?.(bill)}
+              />
+              <TableActionButton
+                icon={Edit}
+                label="Editar"
+                onClick={() => onEdit?.(bill)}
+              />
+              <TableActionButton
+                icon={Trash2}
+                label="Excluir"
+                variant="destructive"
+                onClick={() => onDelete?.(bill.id)}
+              />
+            </div>
+          </PopoverContent>
+        </Popover>
+      ),
     },
   ];
 
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <div className="grid grid-cols-10 gap-4 p-4">
-          {Array.from({ length: 10 }).map((_, i) => (
+        <div className="grid grid-cols-7 gap-4 p-4">
+          {Array.from({ length: 7 }).map((_, i) => (
             <Skeleton key={i} className="h-4 w-full" />
           ))}
         </div>
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="grid grid-cols-10 gap-4 p-4">
-            {Array.from({ length: 10 }).map((_, j) => (
+          <div key={i} className="grid grid-cols-7 gap-4 p-4">
+            {Array.from({ length: 7 }).map((_, j) => (
               <Skeleton key={j} className="h-6 w-full" />
             ))}
           </div>

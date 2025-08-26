@@ -6,8 +6,8 @@ export const endpoints = {
   bills: {
     list: "/despesas/busca",
     create: "/despesas",
-    update: "/despesas/:id",
-    delete: (id: string) => `/despesas/${id}`,
+    update: `/despesas`,
+    delete: (id: string) => `/despesas?despesa_id=${id}`,
   },
   coins: {
     list: "/moedas",

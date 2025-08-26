@@ -1,10 +1,20 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { expenseSchema, ExpenseFormData } from "../_schema/expense.schema";
-import { endpoints } from "@/lib/endpoints";
-import { api } from "@/lib/api";
+import {
+  expenseSchema,
+  ExpenseFormData,
+  ExpenseApiData,
+} from "../_schema/expense.schema";
+import { editBills } from "../api/editBills";
+import { createBills } from "../api/createBills";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-export const useExpenseForm = () => {
+export interface ExpenseWithId extends ExpenseFormData {
+  id: string;
+}
+
+export const useExpenseForm = (currentExpense?: ExpenseWithId) => {
   const formValues = useForm<ExpenseFormData>({
     resolver: zodResolver(expenseSchema),
     defaultValues: {
@@ -21,21 +31,30 @@ export const useExpenseForm = () => {
       departamento: "",
     },
   });
-
+  const queryClient = useQueryClient();
   const { formState, handleSubmit, reset } = formValues;
   const { isSubmitting } = formState;
 
   const onSubmit = async (data: ExpenseFormData) => {
     try {
-      const formattedData = {
+      const formattedData: ExpenseApiData = {
         ...data,
         moeda_id: Number(data.moeda_id),
         banco_id: Number(data.banco_id),
         valor: Number(data.valor),
         cotacao: Number(data.cotacao),
       };
-      await api.post(endpoints.bills.create, formattedData);
-      console.log("Dados da despesa:", formattedData);
+
+      if (currentExpense) {
+        await editBills(currentExpense.id, formattedData);
+      } else {
+        await createBills(formattedData);
+      }
+      await queryClient.invalidateQueries({ queryKey: ["get-bills-items"] });
+      toast.success("Despesa salva com sucesso!", {
+        description: "A despesa foi salva com sucesso.",
+        duration: 3000,
+      });
       reset();
     } catch (error) {
       console.error("Erro ao cadastrar despesa:", error);

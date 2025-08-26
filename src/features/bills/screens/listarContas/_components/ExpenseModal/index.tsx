@@ -12,7 +12,9 @@ import { Button } from "@/components/ui/button";
 import { TextField } from "@/components/Form/TextField";
 import { SelectField } from "@/components/Form/SelectField";
 import { DateField } from "@/components/Form/DateField";
-import { useExpenseForm } from "../../_hooks/useExpenseForm";
+import { useExpenseForm, ExpenseWithId } from "../../_hooks/useExpenseForm";
+import { useEffect } from "react";
+import { formatDateForInput } from "@/lib/formatters/dateFormatter";
 
 interface CoinOption {
   value: string;
@@ -26,6 +28,7 @@ interface BankOption {
 
 interface ExpenseModalProps {
   open: boolean;
+  expense?: ExpenseWithId;
   onOpenChange: (open: boolean) => void;
   coinOptions?: CoinOption[];
   bankOptions?: BankOption[];
@@ -33,14 +36,48 @@ interface ExpenseModalProps {
 
 const ExpenseModal = ({
   open,
+  expense,
   onOpenChange,
   coinOptions = [],
   bankOptions = [],
 }: ExpenseModalProps) => {
-  const { formValues, onSubmit, isLoading } = useExpenseForm();
+  const { formValues, onSubmit, isLoading } = useExpenseForm(expense);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const { handleSubmit: hookHandleSubmit, reset } = formValues;
+
+  useEffect(() => {
+    if (expense) {
+      reset({
+        data_pagamento: formatDateForInput(expense.data_pagamento),
+        moeda_id: expense.moeda_id,
+        banco_id: expense.banco_id,
+        destinatario: expense.destinatario,
+        documento_destinatario: expense.documento_destinatario,
+        descricao: expense.descricao,
+        observacao: expense.observacao,
+        valor: expense.valor,
+        cotacao: expense.cotacao,
+        tipo: expense.tipo,
+        departamento: expense.departamento,
+      });
+    } else {
+      reset({
+        data_pagamento: "",
+        moeda_id: "1",
+        banco_id: "1",
+        destinatario: "",
+        documento_destinatario: "",
+        descricao: "",
+        observacao: "",
+        valor: "1",
+        cotacao: "1",
+        tipo: "direta" as const,
+        departamento: "",
+      });
+    }
+  }, [expense, reset]);
+
+  const handleSubmitForm = async () => {
     await onSubmit();
     onOpenChange(false);
   };
@@ -54,11 +91,16 @@ const ExpenseModal = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Cadastrar Nova Despesa</DialogTitle>
+          <DialogTitle>
+            {expense ? "Editar Despesa" : "Cadastrar Nova Despesa"}
+          </DialogTitle>
         </DialogHeader>
 
         <FormProvider {...formValues}>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form
+            onSubmit={hookHandleSubmit(handleSubmitForm)}
+            className="space-y-4"
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <DateField
                 label="Data de Pagamento"
@@ -150,7 +192,13 @@ const ExpenseModal = ({
                 Cancelar
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Cadastrando..." : "Cadastrar Despesa"}
+                {isLoading
+                  ? expense
+                    ? "Salvando..."
+                    : "Cadastrando..."
+                  : expense
+                    ? "Salvar Alterações"
+                    : "Cadastrar Despesa"}
               </Button>
             </DialogFooter>
           </form>

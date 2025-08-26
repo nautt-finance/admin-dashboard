@@ -49,6 +49,9 @@ export interface BillsTableProps {
   from?: number;
   to?: number;
   total?: number;
+  onView?: (bill: Bill) => void;
+  onEdit?: (bill: Bill) => void;
+  onDelete?: (billId: number) => void;
 }
 
 export interface Coin {

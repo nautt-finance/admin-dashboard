@@ -7,12 +7,21 @@ import { Plus } from "lucide-react";
 import { BillsTable } from "./_components/BillsTable";
 import { BillsFilters } from "./_components/BillsFilters";
 import { ExpenseModal } from "./_components/ExpenseModal";
+import { BillDetailsModal } from "./_components/BillDetailsModal";
 import { useBills } from "./_hooks/useBills";
 import { useFilters } from "./_hooks/useFilters";
 import { FiltersFormData } from "./_schema/filters.schema";
+import { Bill } from "./_types/types";
+import { ExpenseWithId } from "./_hooks/useExpenseForm";
+import { deleteBills } from "./api/deleteBills";
 
 const ListarContasScreen = () => {
   const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+  const [isBillDetailsModalOpen, setIsBillDetailsModalOpen] = useState(false);
+  const [selectedBill, setSelectedBill] = useState<Bill | undefined>();
+  const [editingExpense, setEditingExpense] = useState<
+    ExpenseWithId | undefined
+  >();
   const [currentPageState, setCurrentPageState] = useState(1);
   const [itemsPerPage] = useState(20);
   const { form, clearFilters } = useFilters();
@@ -42,6 +51,47 @@ const ListarContasScreen = () => {
 
   const handleClearFilters = () => {
     clearFilters();
+  };
+
+  const handleViewBill = (bill: Bill) => {
+    setSelectedBill(bill);
+    setIsBillDetailsModalOpen(true);
+  };
+
+  const handleEditBill = (bill: Bill) => {
+    const expenseWithId: ExpenseWithId = {
+      id: bill.id.toString(),
+      data_pagamento: bill.data_pagamento,
+      moeda_id: bill.moeda_id.toString(),
+      banco_id: bill.banco_id.toString(),
+      destinatario: bill.destinatario,
+      documento_destinatario: bill.documento_destinatario,
+      descricao: bill.descricao,
+      observacao: bill.observacao,
+      valor: bill.valor,
+      cotacao: "1",
+      tipo: bill.tipo,
+      departamento: bill.departamento,
+    };
+    setEditingExpense(expenseWithId);
+    setIsExpenseModalOpen(true);
+  };
+
+  const handleDeleteBill = async (billId: number) => {
+    try {
+      await deleteBills(billId.toString());
+      // Refresh the bills list by updating the current page state
+      setCurrentPageState(currentPageState);
+    } catch (error) {
+      console.error("Erro ao excluir conta:", error);
+    }
+  };
+
+  const handleCloseExpenseModal = (open: boolean) => {
+    setIsExpenseModalOpen(open);
+    if (!open) {
+      setEditingExpense(undefined);
+    }
   };
 
   if (error) {
@@ -107,15 +157,25 @@ const ListarContasScreen = () => {
               from={from}
               to={to}
               total={total}
+              onView={handleViewBill}
+              onEdit={handleEditBill}
+              onDelete={handleDeleteBill}
             />
           </CardContent>
         </Card>
 
         <ExpenseModal
           open={isExpenseModalOpen}
-          onOpenChange={setIsExpenseModalOpen}
+          expense={editingExpense}
+          onOpenChange={handleCloseExpenseModal}
           coinOptions={coins}
           bankOptions={bankOptions}
+        />
+
+        <BillDetailsModal
+          open={isBillDetailsModalOpen}
+          bill={selectedBill}
+          onOpenChange={setIsBillDetailsModalOpen}
         />
       </div>
     </div>

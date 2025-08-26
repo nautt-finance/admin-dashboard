@@ -1,10 +1,12 @@
 import { FiltersFormData } from "../_schema/filters.schema";
 import { useBanks } from "@/features/banks/screens/listarBancos/_hooks/useBanks";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDebounce } from "@/hooks/useDebounce";
 import { getBills } from "../api/getBills";
 import { useGetCoins } from "./useGetCoins";
 import { useMemo } from "react";
+import { toast } from "sonner";
+import { deleteBills } from "../api/deleteBills";
 
 export const useBills = (
   filters?: FiltersFormData,
@@ -14,6 +16,7 @@ export const useBills = (
   const { banks } = useBanks();
   const { coins: rawCoins } = useGetCoins();
   const debouncedFilters = useDebounce(filters, 500);
+  const queryClient = useQueryClient();
 
   const {
     data: billsResponse,
@@ -40,6 +43,24 @@ export const useBills = (
     }));
   }, [banks]);
 
+  const handleDeleteBills = async (id: string) => {
+    try {
+      await deleteBills(id);
+      await queryClient.invalidateQueries({ queryKey: ["get-bills-items"] });
+      toast.success("Conta excluída com sucesso!", {
+        description: "A conta foi removida da lista.",
+        duration: 3000,
+      });
+    } catch (err) {
+      console.log(err);
+      toast.error("Erro ao excluir conta", {
+        description:
+          "Ocorreu um erro ao tentar excluir a conta. Tente novamente.",
+        duration: 4000,
+      });
+    }
+  };
+
   return {
     bills: billsResponse?.data,
     total: billsResponse?.total,
@@ -60,5 +81,6 @@ export const useBills = (
     getPendingBills: 0,
     getOverdueBills: 0,
     getPaidBills: 0,
+    handleDeleteBills,
   };
 };
