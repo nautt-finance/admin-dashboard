@@ -8,7 +8,6 @@ import { deleteBank } from "../api/deleteBanks";
 export const useBanks = (filters?: FiltersFormData) => {
   const debouncedFilters = useDebounce(filters, 500);
   const queryClient = useQueryClient();
-  const { invalidateQueries } = queryClient;
 
   const {
     data: banks,
@@ -22,7 +21,7 @@ export const useBanks = (filters?: FiltersFormData) => {
   const handleDeleteBank = async (id: string) => {
     try {
       await deleteBank(id);
-      invalidateQueries({ queryKey: ["get-banks-items"] });
+      queryClient.invalidateQueries({ queryKey: ["get-banks-items"] });
       toast.success("Banco excluído com sucesso!", {
         description: "O banco foi removido da lista.",
         duration: 3000,

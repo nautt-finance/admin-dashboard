@@ -48,7 +48,9 @@ const ExpenseModal = ({
   useEffect(() => {
     if (expense) {
       reset({
-        data_pagamento: formatDateForInput(expense.data_pagamento),
+        data_pagamento: expense.data_pagamento
+          ? formatDateForInput(expense.data_pagamento)
+          : new Date().toISOString().split("T")[0],
         moeda_id: expense.moeda_id,
         banco_id: expense.banco_id,
         destinatario: expense.destinatario,
@@ -62,9 +64,9 @@ const ExpenseModal = ({
       });
     } else {
       reset({
-        data_pagamento: "",
+        data_pagamento: new Date().toISOString().split("T")[0],
         moeda_id: "1",
-        banco_id: "1",
+        banco_id: "",
         destinatario: "",
         documento_destinatario: "",
         descricao: "",
