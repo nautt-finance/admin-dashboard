@@ -21,7 +21,10 @@ export const expenseSchema = z.object({
 export type ExpenseFormData = z.infer<typeof expenseSchema>;
 
 // Tipo para os dados formatados (com campos numéricos convertidos)
-export type ExpenseApiData = Omit<ExpenseFormData, 'moeda_id' | 'banco_id' | 'valor' | 'cotacao'> & {
+export type ExpenseApiData = Omit<
+  ExpenseFormData,
+  "moeda_id" | "banco_id" | "valor" | "cotacao"
+> & {
   moeda_id: number;
   banco_id: number;
   valor: number;
