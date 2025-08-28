@@ -4,12 +4,24 @@ import { parseCookies } from "nookies";
 import { BASE_URL, TOKEN_NAME } from "./settings";
 
 const createAPI = (): AxiosInstance => {
-  const token = parseCookies()[TOKEN_NAME];
+  const cookies = parseCookies();
+  const userCookie = cookies[TOKEN_NAME];
+
+  let authToken = "";
+
+  if (userCookie) {
+    try {
+      const userData = JSON.parse(decodeURIComponent(userCookie));
+      authToken = userData.token || "";
+    } catch (error) {
+      console.error("Erro ao fazer parse do token:", error);
+    }
+  }
 
   const api = axios.create({
     baseURL: BASE_URL,
     headers: {
-      Authorization: token ? `Bearer ${decodeURIComponent(token)}` : "",
+      Authorization: authToken ? `Bearer ${authToken}` : "",
     },
   });
 
