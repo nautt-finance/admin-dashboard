@@ -1,21 +1,18 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { useRouter } from "next/navigation";
-import { destroyCookie } from "nookies";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { routes } from "@/lib/routes";
 import { TOKEN_NAME } from "@/lib/settings";
 import { cookieOptions } from "@/constants/cookieOptions";
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  avatar?: string;
-  role: "admin" | "user";
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { User } from "@/types/user";
 
 interface AuthContextData {
   user: User | null;
@@ -23,6 +20,7 @@ interface AuthContextData {
   isLoading: boolean;
   signOut: () => void;
   updateUser: (userData: Partial<User>) => void;
+  signIn: (userData: User) => void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -38,19 +36,30 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const isAuthenticated = !!user;
 
-  // const fetchUser = async (token: string): Promise<User | null> => {
-  //   try {
-  //     const response = await api.get("/auth/me", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     return response.data.user;
-  //   } catch (error) {
-  //     console.error("Erro ao buscar dados do usuário:", error);
-  //     return null;
-  //   }
-  // };
+  useEffect(() => {
+    const initializeAuth = () => {
+      try {
+        const cookies = parseCookies();
+        const userCookie = cookies[TOKEN_NAME];
+
+        if (userCookie) {
+          const userData = JSON.parse(userCookie);
+          setUser(userData);
+        }
+      } catch (error) {
+        destroyCookie(null, TOKEN_NAME, cookieOptions);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeAuth();
+  }, []);
+
+  const signIn = (userData: User) => {
+    setCookie(null, TOKEN_NAME, JSON.stringify(userData), cookieOptions);
+    setUser(userData);
+  };
 
   const signOut = () => {
     try {
@@ -64,29 +73,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const updateUser = (userData: Partial<User>) => {
     if (user) {
-      setUser({ ...user, ...userData });
+      const updatedUser = { ...user, ...userData };
+      setUser(updatedUser);
+      setCookie(null, TOKEN_NAME, JSON.stringify(updatedUser), cookieOptions);
     }
   };
-
-  // useEffect(() => {
-  //   const initializeAuth = async () => {
-  //     const cookies = parseCookies();
-  //     const token = cookies[TOKEN_NAME];
-
-  //     if (token) {
-  //       const userData = await fetchUser(token);
-  //       if (userData) {
-  //         setUser(userData);
-  //       } else {
-  //         destroyCookie(null, TOKEN_NAME);
-  //       }
-  //     }
-
-  //     setIsLoading(false);
-  //   };
-
-  //   initializeAuth();
-  // }, []);
 
   return (
     <AuthContext.Provider
@@ -96,6 +87,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isLoading,
         signOut,
         updateUser,
+        signIn,
       }}
     >
       {children}

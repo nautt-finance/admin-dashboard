@@ -44,9 +44,6 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
           <Button type="submit" className="w-full">
             {t("submitButton")}
           </Button>
-          <Button variant="ghost" className="w-full">
-            {t("forgotPasswordButton")}
-          </Button>
         </div>
       </form>
     </FormProvider>

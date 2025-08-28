@@ -1,11 +1,19 @@
 export interface User {
-  id: string;
+  id: number;
+  token: string;
   name: string;
   email: string;
-  avatar?: string;
   role: "admin" | "user";
-  createdAt: Date;
-  updatedAt: Date;
+  dark_mode: boolean;
+  cod_afiliado: string;
+  needs_2fa: boolean;
+  kyb_id: number;
+  kyc_id: number;
+  limite: {
+    entradas: number;
+    saidas: number;
+  };
+  webhook: boolean;
 }
 
 export interface AuthResponse {

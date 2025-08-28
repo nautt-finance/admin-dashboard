@@ -3,6 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { FC, useTransition } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 const languages = [
   { code: "pt", name: "Português" },
@@ -24,25 +32,25 @@ const LanguageSelector: FC = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <label htmlFor="language-select" className="text-sm font-medium">
+      <Label htmlFor="language-select" className="text-sm font-medium">
         Idioma:
-      </label>
-      <select
-        id="language-select"
-        disabled={isPending}
+      </Label>
+      <Select
         value={localActive}
-        onChange={(e) => onSelectChange(e.target.value)}
-        className="px-3 py-1 border rounded-md bg-white text-sm"
+        onValueChange={onSelectChange}
+        disabled={isPending}
       >
-        {languages.map((lang) => (
-          <option key={lang.code} value={lang.code}>
-            {lang.name}
-          </option>
-        ))}
-      </select>
-      {isPending && (
-        <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-      )}
+        <SelectTrigger className="w-[140px]">
+          <SelectValue placeholder="Selecione..." />
+        </SelectTrigger>
+        <SelectContent>
+          {languages.map((lang) => (
+            <SelectItem key={lang.code} value={lang.code}>
+              {lang.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 };

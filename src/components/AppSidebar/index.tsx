@@ -29,6 +29,7 @@ import {
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "next-themes";
 import UserProfile from "./UserProfile";
+import { useAuth } from "@/providers/auth-provider";
 
 // Tipos para os itens do menu
 interface SubMenuItem {
@@ -79,6 +80,7 @@ const items: MenuItem[] = [
 export function AppSidebar() {
   const [expandedMenus, setExpandedMenus] = useState<Set<string>>(new Set());
   const [mounted, setMounted] = useState(false);
+  const { user, signOut } = useAuth();
 
   const toggleMenu = (title: string) => {
     setExpandedMenus((prev) => {
@@ -112,9 +114,9 @@ export function AppSidebar() {
             className="mt-4"
           />
           <UserProfile
-            userName="User Name"
-            userEmail="user@nauttfinance.com"
-            onLogout={() => console.log("Logout clicked")}
+            userName={user?.name || "Usuário"}
+            userEmail={user?.email || "usuario@nautt.finance"}
+            onLogout={signOut}
           />
           <SidebarGroupContent className="mt-4">
             <SidebarMenu>

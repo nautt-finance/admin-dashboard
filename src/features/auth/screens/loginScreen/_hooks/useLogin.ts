@@ -3,15 +3,14 @@ import { useState } from "react";
 import { useHandleError } from "@/hooks/useHandleError";
 import { endpoints } from "@/lib/endpoints";
 import { api } from "@/lib/api";
-import { TOKEN_NAME } from "@/lib/settings";
-import { setCookie } from "nookies";
 import { useRouter } from "next/navigation";
-import { cookieOptions } from "@/constants/cookieOptions";
+import { useAuth } from "@/providers/auth-provider";
 
 export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { handleError } = useHandleError();
   const router = useRouter();
+  const { signIn } = useAuth();
 
   const handleLogin = async (formData: LoginFormData) => {
     setIsLoading(true);
@@ -21,12 +20,8 @@ export const useLogin = () => {
       });
       const { data } = response;
       const { dados } = data;
-      setCookie(
-        null,
-        TOKEN_NAME,
-        encodeURIComponent(dados.token),
-        cookieOptions
-      );
+
+      signIn(dados);
       router.push("/dashboard");
     } catch (error) {
       handleError(error);
