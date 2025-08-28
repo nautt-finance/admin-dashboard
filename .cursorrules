@@ -194,5 +194,4 @@ export const NovaScreen = () => {
 - Sempre priorize reutilização de componentes
 - Mantenha separação clara entre features
 - Use tipagem estrita em todo o projeto
-- Documente componentes complexos
 - Siga as convenções de nomenclatura estabelecidas 
