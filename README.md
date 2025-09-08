@@ -3,7 +3,7 @@
 Dashboard para visualização de métricas financeiras
 
 > ✨ Totalmente baseada em **componentes reutilizáveis**, **separação por features** e
-> **boas práticas com React + TypeScript**.
+> **boas práticas com React + TypeScript**
 
 ---
 
